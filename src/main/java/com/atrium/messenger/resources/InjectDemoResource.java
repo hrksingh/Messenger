@@ -25,5 +25,11 @@ public class InjectDemoResource {
 		return "Matrix Param: " + martrixParam + ", Header: " + header + ", Cookie: " + cookie;
 	}
 
-	
+	@GET
+	@Path("/context")
+	public String getParamsUsingContext(@Context UriInfo uriInfo, @Context HttpHeaders headers) {
+		String path = uriInfo.getAbsolutePath().toString();
+		String cookie = headers.getCookies().toString();
+		return "Path: " + path + ", Cookie: " + cookie;
+	}
 }
