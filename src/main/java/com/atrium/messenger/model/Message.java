@@ -4,10 +4,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.Path;
+
 import javax.xml.bind.annotation.XmlTransient;
 
-import com.atrium.messenger.resources.CommentResource;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
