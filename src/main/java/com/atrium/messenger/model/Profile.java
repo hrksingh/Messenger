@@ -9,9 +9,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Profile {
-	private long id;
+	private String userName;
 	private String firstName;
 	private String lastName;
 	private Date created;
+	
+	
+	public Profile(String userName, String firstName, String lastName) {
+		this.userName = userName;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.created = new Date();
+	}
+	
+	
 
 }

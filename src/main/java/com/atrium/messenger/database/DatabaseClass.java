@@ -15,6 +15,6 @@ public class DatabaseClass {
 	private static Map<Long, Message> messages = new HashMap<Long, Message>();
 	
 	@Getter
-	private static Map<Long, Profile> profiles = new HashMap<Long, Profile>();
+	private static Map<String, Profile> profiles = new HashMap<String, Profile>();
 
 }
