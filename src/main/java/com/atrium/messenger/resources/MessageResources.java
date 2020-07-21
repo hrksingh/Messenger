@@ -30,7 +30,7 @@ public class MessageResources {
 	
 	@GET
 	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean, @Context UriInfo uriInfo) {
-		
+
 		if (filterBean.getYear() > 0) {
 			return messageService.getAllMessagesForYear(filterBean.getYear());
 		}
