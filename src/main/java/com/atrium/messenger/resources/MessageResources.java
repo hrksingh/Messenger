@@ -29,7 +29,8 @@ public class MessageResources {
 	MessageService messageService = new MessageService();
 	
 	@GET
-	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean) {
+	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean, @Context UriInfo uriInfo) {
+		
 		if (filterBean.getYear() > 0) {
 			return messageService.getAllMessagesForYear(filterBean.getYear());
 		}
@@ -37,15 +38,46 @@ public class MessageResources {
 		if (filterBean.getStart() >= 0 && filterBean.getSize() > 0) {
 			return messageService.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
 		}
-		return messageService.getAllMessages();
+		List<Message> allMessages = messageService.getAllMessages();
+		return allMessages;
 	}
 	
 	@GET
 	@Path("/{messageid}")
-	public Message getMessage(@PathParam("messageid") long messageid) {
+	public Message getMessage(@PathParam("messageid") long messageid, @Context UriInfo uriInfo) {
+		Message message = messageService.getMessage(messageid);
+		message.addLink(getUriForSelf(uriInfo, message), "self");
+		message.addLink(getUriForProfile(uriInfo, message), "profile");
+		message.addLink(getUriForComments(uriInfo, message), "comments");
 
-		return messageService.getMessage(messageid);
+		return message;
 	}
+	
+	//<----------------------------------Different Uri's to for Links ArrayList---------------------------------------------->
+	private String getUriForComments(UriInfo uriInfo, Message message) {
+		URI uri = uriInfo.getBaseUriBuilder().path(MessageResources.class)
+				.path(MessageResources.class, "getCommentResource").path(CommentResource.class)
+				.resolveTemplate("messageId", message.getId()).build();
+		return uri.toString();
+	}
+
+	private String getUriForProfile(UriInfo uriInfo, Message message) {
+		URI uri = uriInfo.getBaseUriBuilder().path(ProfileResources.class).path(message.getAuthor()).build();
+		return uri.toString();
+	}
+
+	private String getUriForSelf(UriInfo uriInfo, Message message) {
+		String uri = uriInfo.getBaseUriBuilder().path(MessageResources.class).path(Long.toString(message.getId()))
+				.build().toString();
+		return uri;
+	}
+	private String getUriForSelf(UriInfo uriInfo) {
+		String uri = uriInfo.getBaseUriBuilder().path(MessageResources.class)
+				.build().toString();
+		return uri;
+	}
+	
+	//<-------------------------------------------------------------------------------------------------------------------->
 	
 	@POST
 	public Response addMessage(Message message, @Context UriInfo uriInfo) {
