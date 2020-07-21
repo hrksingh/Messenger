@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.management.RuntimeErrorException;
 
 import com.atrium.messenger.database.DatabaseClass;
+import com.atrium.messenger.exception.DataNotFoundException;
 import com.atrium.messenger.model.Message;
 
 public class MessageService {
@@ -48,8 +49,9 @@ public class MessageService {
 	}
 
 	public Message getMessage(long id) {
+
 		if (!messages.containsKey(id)) {
-			throw new RuntimeErrorException(new Error("No message with this message id: " + id + " found"));
+			throw new DataNotFoundException("Message with id " + id + " not found");
 		}
 		return messages.get(id);
 
