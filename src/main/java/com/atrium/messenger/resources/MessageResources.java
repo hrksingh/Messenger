@@ -1,5 +1,6 @@
 package com.atrium.messenger.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -11,7 +12,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import com.atrium.messenger.model.Message;
 import com.atrium.messenger.resources.beans.MessageFilterBean;
@@ -44,9 +48,17 @@ public class MessageResources {
 	}
 	
 	@POST
-	public Message addMessage(Message message) {
+	public Response addMessage(Message message, @Context UriInfo uriInfo) {
+
+		Message newMessage = messageService.addMessage(message);
+		String newId = String.valueOf(newMessage.getId());
+		URI uri = uriInfo.getAbsolutePathBuilder().path(newId)
+				.build();
 		
-		return messageService.addMessage(message);
+		return Response
+				.created(uri)
+				.entity(newMessage)
+				.build();
 	}
 	
 	@PUT
