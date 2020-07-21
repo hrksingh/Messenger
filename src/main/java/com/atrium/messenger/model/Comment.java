@@ -2,6 +2,8 @@ package com.atrium.messenger.model;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@XmlRootElement
 public class Comment {
 
 	private long id;

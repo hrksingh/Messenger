@@ -23,7 +23,7 @@ import com.atrium.messenger.services.MessageService;
 
 @Path("/messages")
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN, MediaType.TEXT_XML})
 public class MessageResources {
 
 	MessageService messageService = new MessageService();
