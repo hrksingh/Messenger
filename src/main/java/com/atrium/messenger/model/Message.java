@@ -23,7 +23,7 @@ public class Message {
 	private Date created;
 	private String author;
 
-	@Getter(onMethod = @__( @XmlTransient)) 
+	@Getter(onMethod = @__( @XmlTransient)) //xml transient is used to ignore comments when message is called
 	private Map<Long, Comment> comments = new HashMap<>();
 	
 	private List<Link> links = new ArrayList<>();
